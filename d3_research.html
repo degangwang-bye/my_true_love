@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>d3 research</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+    <script>
+        function loadFunc() {
+            // Don't care this
+            // const div = d3.create("div");
+            // div.html("Hello, world!!!!!!");
+            // document.getElementById('con').appendChild(div.node());
+
+
+            // Method1: Directly read the content of csv file and print the content to the console
+            // Try read csv with d3.js. It will not work when you open this html file directly because of CORS policy. You have to save 
+            // the html in a local web server.
+            // You can try run a simple http server with cmd:   npx http-server C:\degang_wang\tech_learn\14_d3
+            // Then access the html file with url:  http://127.0.0.1:8080/d3_research.html
+            console.log("Method1: Directly read the content of csv file and print the content to the console");
+            d3.csv("input.csv", function (data) {
+                    console.log(data.No);
+                    console.log(data.Age);
+                    console.log(data.Name);
+            });
+
+
+            // Method2: Read the csv file that user selected and print the content to console
+            // Step 1: Add a listener to the files button. handleFileSelect function will be called if an user selected a csv file.
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+        }
+
+        function handleFileSelect(evt) {
+
+            console.log("Mwethod2: Read the csv file that user selected and print the content to console");
+            var f = evt.target.files[0]; // FileList object
+
+            //Read content of the file
+            var reader = new FileReader();
+            reader.readAsText(f);
+            reader.onload = function () {
+                console.log(reader.result);
+                //Put the content of csv file to a js array object.
+                var csvArray = $.csv.toArrays(reader.result);
+                console.log(csvArray);
+            };
+
+        }
+    </script>
+</head>
+
+<body onload="loadFunc()">
+    <!--<p>1</p>
+    <p>2</p>-->
+
+    <div id="con">
+        <input type="file" id="files" name="files[]" />
+    </div>
+
+
+
+    <!--<script>
+        var p = d3.select("body").selectAll("p");
+        p.text("zzzzzzzz");
+    </script>-->
+
+
+
+</body>
+
+</html>
